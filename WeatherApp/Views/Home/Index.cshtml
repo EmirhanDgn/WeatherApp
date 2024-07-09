@@ -1,0 +1,102 @@
+﻿@model WeatherApp.Models.WeatherModel
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = null;
+
+    var backgroundImage = Model.BgImage;
+
+}
+
+
+<style>
+    body {
+        background: url('@backgroundImage') no-repeat center center fixed;
+        background-size: cover;
+        color: white;
+        text-align: center;
+        padding-top: 100px;
+        font-family: Arial, sans-serif;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .form-container, .weather-container {
+        background-color: rgba(0, 0, 0, 0.7);
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+        .form-container input[type="text"] {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border: none;
+            width: calc(100% - 20px);
+        }
+
+        .form-container input[type="submit"] {
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+
+            .form-container input[type="submit"]:hover {
+                background-color: #218838;
+            }
+
+    h1, h2 {
+        margin: 10px;
+    }
+</style>
+
+<div class="container">
+    <div class="form-container">
+        <form method="get" action="/" id="locationForm">
+            <input type="text" id="locationInput" name="location" placeholder="Şehir, Ülke" value="@(Model.City ?? "Istanbul, Turkey")" required />
+            <input type="submit" value="Hava Durumunu Getir" />
+        </form>
+    </div>
+
+    <div class="weather-container">
+        <h1>@Model.City</h1>
+        <h2>Şu anki hava durumu: @Model.CurrentWeather</h2>
+        <p>Sıcaklık: @Model.Temperature °C</p>
+        <p>Nem: @Model.Humidity %</p>
+        <p>Rüzgar Hızı: @Model.Wind</p>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if (navigator.geolocation) {
+            // Konum daha önce alındı mı kontrol etmek için localStorage kullanıyoruz
+            if (!localStorage.getItem('locationFetched')) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var latitude = position.coords.latitude;
+                    var longitude = position.coords.longitude;
+                    fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`)
+                        .then(response => response.json())
+                        .then(data => {
+                            var city = data.city;
+                            var countryName = data.countryName;
+                            if (city && countryName) {
+                                document.getElementById('locationInput').value = city + ', ' + countryName;
+                                localStorage.setItem('locationFetched', 'true'); // Konumun alındığını kaydediyoruz
+                                document.getElementById('locationForm').submit();
+                            }
+                        });
+                });
+            }
+        }
+    });
+</script>
