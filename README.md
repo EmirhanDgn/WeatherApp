@@ -8,18 +8,18 @@ Hava durumu bilgilerine göre arka plan resmini dinamik olarak değiştirir.
 Kullanıcının konumunu yalnızca bir kez alır ve sonraki ziyaretlerde aynı işlemi tekrarlamaz.
 
 ## Kullanılan Teknolojiler
-ASP.NET Core MVC
-C#
-JavaScript (Geolocation API)
-HTML5
-CSS3
+- ASP.NET Core MVC
+- C#
+- JavaScript (Geolocation API)
+- HTML5
+- CSS3
 
 ## Proje Yapısı
-Models/WeatherModel.cs:
-Hava durumu verilerini taşıyan model sınıfı.
-Services/WeatherService.cs:
-Hava durumu API'sine istek gönderen ve verileri çeken servis sınıfı.
-Controllers/HomeController.cs:
-Hava durumu verilerini işleyen ve View'a gönderen controller sınıfı.
-Views/Home/Index.cshtml:
-Kullanıcı arayüzü, form ve hava durumu bilgilerini gösteren Razor view dosyası.
+- Models/WeatherModel.cs:
+- Hava durumu verilerini taşıyan model sınıfı.
+- Services/WeatherService.cs:
+- Hava durumu API'sine istek gönderen ve verileri çeken servis sınıfı.
+- Controllers/HomeController.cs:
+- Hava durumu verilerini işleyen ve View'a gönderen controller sınıfı.
+- Views/Home/Index.cshtml:
+- Kullanıcı arayüzü, form ve hava durumu bilgilerini gösteren Razor view dosyası.
